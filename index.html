@@ -3,26 +3,30 @@
   <head>
     <title>Twittler</title>
 
-    <script src="jquery.js"></script>
-    <script src="data_generator.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/data_generator.js"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
   </head>
   <body>
-
-    <div class="container theme-showcase" role="main">
-      <div class="page-header">
-        <h1>Twittler Feed</h1>
-      </div>
-      
-      <div class="list-group">
-      </div>
+  
+    <div class="container">
+        <div class="page-header">
+          <h1>Twittler Feed</h1>
+        </div>
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" id="tweet" placeholder="Tweet something here" />
+          </div>
+        </form>
+        <div class="list-group">
+        </div>
     </div> <!-- /container -->
     
     <script>
