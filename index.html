@@ -70,8 +70,11 @@
         <button type="button" id="back_button" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-chevron-left"></span> Back</button>
       </div>
         <form>
-          <div class="form-group">
-            <input type="text" class="form-control" id="tweet" placeholder="Tweet something here" />
+          <div class="form-group input-group input-group-lg">
+            <input type="text" class="form-control" id="tweet_input" placeholder="Tweet something here" />
+            <span class="input-group-btn">
+              <button class="btn btn-default btn-success" id="tweet_button" type="button">Tweet!</button>
+            </span>
           </div>
         </form>
         <div class="list-group">
@@ -105,6 +108,19 @@
         $("#back_button").on('click', function(){
           $("#search").val("");
           searchUser();
+        });
+
+        $("#tweet_input").on('keypress', function(event){
+          if (event.which == 13){
+            writeTweet($(this).val());
+            $(this).val("");
+            return false;
+          }
+        });
+
+        $("#tweet_button").on('click', function(){
+          writeTweet($('#tweet_input').val());
+          $('#tweet_input').val('');
         });
 
         var searchUser = function(){
