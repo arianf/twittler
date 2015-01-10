@@ -57,14 +57,18 @@
 
     <div class="container">
         <br>
-        <div class="page-header">
-          <h1 id="titleofpage">Twittler Feed</h1>
 
-          <div class="text-right">
-            <h2 class="h4">Auto-Reload</h2>
-            <input type="checkbox" name="autoswitch" id="autoswitch" data-state="true" checked>
-          </div>
+      <div class="row page-header">
+        <div class="col-xs-8">
+          <h1 id="titleofpage">Twittler Feed</h1>
         </div>
+        <div class="col-xs-4 text-right">
+          <h2 class="h4">Auto-Reload</h2>
+          <input type="checkbox" name="autoswitch" id="autoswitch" data-state="true" checked></div>
+      </div>
+      <div class="row text-left" id="back">
+        <button type="button" id="back_button" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-chevron-left"></span> Back</button>
+      </div>
         <form>
           <div class="form-group">
             <input type="text" class="form-control" id="tweet" placeholder="Tweet something here" />
@@ -72,12 +76,14 @@
         </form>
         <div class="list-group">
         </div>
+
     </div> <!-- /container -->
     
     <script>
 
       $(document).ready(function(){
         var $body = $('.list-group');
+        $("#back").hide();
         // $body.html('');
         $("#autoswitch").bootstrapSwitch();
 
@@ -85,7 +91,9 @@
           $(this).data('state', state);
         });
 
-        $(".list-group").on('click', '.list-group-item', function(){
+        $(".list-group").on('click', '.list-group-item', function(event){
+          event.stopPropagation();
+          event.preventDefault();
           $("#search").trigger('input').val(($(this).find('.username').text()).substr(1));
           searchUser();
         });
@@ -94,15 +102,23 @@
           searchUser();
         });
 
+        $("#back_button").on('click', function(){
+          $("#search").val("");
+          searchUser();
+        });
+
         var searchUser = function(){
           $(".list-group-item").css("display", "");
-          $("#titleofpage").text("Twittler Feed");
           var searchBarVal = $('#search').val();
           if(searchBarVal != ''){
             $("#titleofpage").text(searchBarVal + "'s Timeline: ");
+            $("#back").show();
             $(".username").filter(function(item, element){
               return ($(this).text() != '@'+ searchBarVal);
             }).closest(".list-group-item").css("display", "none");
+          }else{
+            $("#titleofpage").text("Twittler Feed");
+            $("#back").hide();
           }
         };
 
@@ -135,6 +151,7 @@
         
       });
 
+      
     </script>
 
   </body>

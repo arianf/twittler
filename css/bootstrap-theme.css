@@ -23,3 +23,9 @@ body {
   background-size: auto;
   /*background-color: #A1CAF1; /*#FFCC99;*/
 }
+
+#back{
+  padding: 7px;
+  margin-bottom: 10px;
+
+}
