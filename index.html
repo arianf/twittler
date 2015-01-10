@@ -22,7 +22,7 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         
         <div class="navbar-header">
@@ -38,15 +38,13 @@
         <div class="navbar-collapse collapse" id="navbar-collapsible">
           
           <div class="navbar-form navbar-right btn-group">
-            <button type="button" class="btn btn-default">Button 1</button>
-            <button type="button" class="btn btn-default">Button 2</button>
-            <button type="button" class="btn btn-default">Button 3</button>
+            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cog"></span></button>
+            <button type="button" class="btn btn-default">Logout</button>
           </div>
-          
           <form class="navbar-form">
             <div class="form-group" style="display:inline;">
               <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">@</span><input type="text" class="form-control">
+                <span class="input-group-addon" id="basic-addon1">@</span><input type="text" class="form-control" id="search">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
               </div>
             </div>
@@ -58,10 +56,13 @@
     </nav>
 
     <div class="container">
-     
+        <br>
         <div class="page-header">
           <h1>Twittler Feed</h1>
-           <input type="checkbox" name="my-checkbox" checked>
+            <div class="text-right">
+              <h2 class="h4">Auto-Reload</h2>
+              <input type="checkbox" name="autoswitch" id="autoswitch" data-state="true" checked>
+            </div>
         </div>
         <form>
           <div class="form-group">
@@ -77,10 +78,24 @@
       $(document).ready(function(){
         var $body = $('.list-group');
         // $body.html('');
-        $("[name='my-checkbox']").bootstrapSwitch();
+        $("#autoswitch").bootstrapSwitch();
+
+        $("#autoswitch").on('switchChange.bootstrapSwitch', function(event, state) {
+          $(this).data('state', state);
+        });
+
+        $(".list-group").on('click', '.list-group-item', function(){
+          $("#search").trigger('input').val(($(this).find('.username').text()).substr(1));
+        });
+
+        $(".input-group").on('input', '#search', function(){
+          /* FILTER */
+        });
+
         var emptySteam = function() {
           var index = streams.home.length - 1;
-          while(index >= 0){
+
+          while(index >= 0 && $("#autoswitch").data('state')){
             var tweet = streams.home[index];
             var $tweet = $('<a href="#" class="list-group-item"><h4 class="list-group-item-heading"><span class="username"></span>&nbsp;&nbsp;<small class="date"></small></h4><p class="list-group-item-text"></p></a>');
             $tweet.find(".username").text('@' + tweet.user);
@@ -88,9 +103,9 @@
             $tweet.find(".list-group-item-text").text(tweet.message);
             $tweet.prependTo($body).hide().slideDown();
             index -= 1;
-            while($(".list-group-item:visible").length > 9){
-              $(".list-group-item").last().slideDown().remove();
-            }
+            // while($(".list-group-item:visible").length > 9){
+            //   $(".list-group-item").last().slideDown().remove();
+            // }
             streams.home.pop();
           }
           setTimeout(emptySteam, 1000);
