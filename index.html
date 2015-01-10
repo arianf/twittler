@@ -58,11 +58,12 @@
     <div class="container">
         <br>
         <div class="page-header">
-          <h1>Twittler Feed</h1>
-            <div class="text-right">
-              <h2 class="h4">Auto-Reload</h2>
-              <input type="checkbox" name="autoswitch" id="autoswitch" data-state="true" checked>
-            </div>
+          <h1 id="titleofpage">Twittler Feed</h1>
+
+          <div class="text-right">
+            <h2 class="h4">Auto-Reload</h2>
+            <input type="checkbox" name="autoswitch" id="autoswitch" data-state="true" checked>
+          </div>
         </div>
         <form>
           <div class="form-group">
@@ -86,11 +87,24 @@
 
         $(".list-group").on('click', '.list-group-item', function(){
           $("#search").trigger('input').val(($(this).find('.username').text()).substr(1));
+          searchUser();
         });
 
         $(".input-group").on('input', '#search', function(){
-          /* FILTER */
+          searchUser();
         });
+
+        var searchUser = function(){
+          $(".list-group-item").css("display", "");
+          $("#titleofpage").text("Twittler Feed");
+          var searchBarVal = $('#search').val();
+          if(searchBarVal != ''){
+            $("#titleofpage").text(searchBarVal + "'s Timeline: ");
+            $(".username").filter(function(item, element){
+              return ($(this).text() != '@'+ searchBarVal);
+            }).closest(".list-group-item").css("display", "none");
+          }
+        };
 
         var emptySteam = function() {
           var index = streams.home.length - 1;
@@ -101,7 +115,14 @@
             $tweet.find(".username").text('@' + tweet.user);
             $tweet.find(".date").text(tweet.created_at);
             $tweet.find(".list-group-item-text").text(tweet.message);
-            $tweet.prependTo($body).hide().slideDown();
+            
+
+            var searchBarVal = $('#search').val();
+            if(searchBarVal == '' || searchBarVal === tweet.user){
+              $tweet.prependTo($body).hide().slideDown();
+            }else{
+              $tweet.prependTo($body).css("display", 'none');
+            }
             index -= 1;
             // while($(".list-group-item:visible").length > 9){
             //   $(".list-group-item").last().slideDown().remove();
