@@ -27,5 +27,14 @@ body {
 #back{
   padding: 7px;
   margin-bottom: 10px;
+}
 
+.username{
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.date{
+  text-align: right;
+  color: grey;
 }
